@@ -1,5 +1,5 @@
 {
-  "name": "Chuck controller",
+  "name": "Chuck-controller",
   "version": "1.0.0",
   "private": true,
   "description": "This serves as a backend for the Universal Chuck app, in order to bypass CORS issues.",
