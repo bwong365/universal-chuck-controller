@@ -8,14 +8,7 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 
 app.route('/').get(index);
 app.route('/chuck').get((req, res) => getChuck(req, res, false));
-app.route('/chuck/:translate').get((req, res) => getChuck(req, res, true));
-
-// learning is fun!
-app.get('/test', (req, res) => {
-  res.send(req.query);
-}).get('/test/:text', (req, res) => {
-  res.send(req.params);
-});
+app.route('/chuck/:lang').get((req, res) => getChuck(req, res, true));
 
 
 function index(req, res) {
@@ -26,16 +19,44 @@ function index(req, res) {
 function getChuck(req, res, translate) {
   console.log(translate ? 'translate hit!' : 'hit!')
   const chuckAPI = 'https://api.chucknorris.io/jokes/random';
-  const langAPI = 'https://api.funtranslations.com/translate';
-  const lang = req.params;
-  const text = req.query.text;
-
+  const langAPI = 'https://api.funtranslations.com/translate/';
+  const lang = req.params.lang + '?text=';
+  
   axios.get(chuckAPI)
-    .then(fact => {
-      res.send(fact.data.value);
+    .then(json => {
+      
+      // Basic fact
+      const fact = json.data.value
+      if (!translate) {
+        res.send(fact);
+
+      // Translated fact
+      } else {
+        const fact = encodeURI(json.data.value);
+  
+        // Get translation!
+        axios.get(langAPI + lang + fact)
+          .then(json => { 
+            res.send(json.data.contents.translated);
+          })
+          .catch(err => {
+            console.log(error);
+          });
+      }
     })
+
+    // Something went wrong
     .catch(err => {
       console.log(err);
       res.status(300).send(err);
     });
 }
+
+
+// learning is fun!
+app.get('/test', (req, res) => {
+  res.send(req.query);
+}).get('/test/:text', (req, res) => {
+  res.send(req.params);
+});
+
