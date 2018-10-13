@@ -10,6 +10,6 @@ app.route('/').get(index);
 //app.route('/chuck')
 
 
-index = (req, res) => {
+function index(req, res) {
   res.send('Hi!');
 }

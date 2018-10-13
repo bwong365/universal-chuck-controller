@@ -5,7 +5,8 @@
   "description": "This serves as a backend for the Universal Chuck app, in order to bypass CORS issues.",
   "homepage": "universal-chuck-controller.heroku-apps.com",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "index.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
