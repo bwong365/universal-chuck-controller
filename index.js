@@ -10,6 +10,7 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  
   next();
 });
 
@@ -25,7 +26,7 @@ function index(req, res) {
 // Route both requests through here
 function getChuck(req, res, translate) {
   console.log(translate ? 'translate hit!' : 'hit!')
-  const chuckAPI = 'https://api.chucknorris.io/jokes/random';
+  const chuckAPI = 'https://api.icndb.com/jokes/random?exclude=[explicit]';
   const langAPI = 'https://api.funtranslations.com/translate/';
   const lang = req.params.lang + '?text=';
   
@@ -33,13 +34,13 @@ function getChuck(req, res, translate) {
     .then(json => {
       
       // Basic fact
-      const fact = json.data.value
+      const fact = json.data.value.joke
       if (!translate) {
         res.send(fact);
 
       // Translated fact
       } else {
-        const fact = encodeURI(json.data.value);
+        const fact = encodeURI(json.data.value.joke);
   
         // Get translation!
         axios.get(langAPI + lang + fact)
