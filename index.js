@@ -26,7 +26,7 @@ function index(req, res) {
 // Route both requests through here
 function getChuck(req, res, translate) {
   console.log(translate ? 'translate hit!' : 'hit!')
-  const chuckAPI = 'https://api.icndb.com/jokes/random?exclude=[explicit]';
+  const chuckAPI = 'https://api.icndb.com/jokes/random?limitTo=[nerdy]'; //exclude=[explicit]
   const langAPI = 'https://api.funtranslations.com/translate/';
   const lang = req.params.lang + '?text=';
   
