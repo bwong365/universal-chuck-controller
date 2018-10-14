@@ -6,6 +6,13 @@ const app = express();
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
+// CORS middleware
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
 app.route('/').get(index);
 app.route('/chuck').get((req, res) => getChuck(req, res, false));
 app.route('/chuck/:lang').get((req, res) => getChuck(req, res, true));
